@@ -51,7 +51,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+# Disabling tests that rely on database server and ones with package import
+# errors.
+%gocheck -d client/rpcflags \
+         -d experimental/batchmap \
+         -d integration/quota \
+         -t quota/etcd \
+         -d storage/testdb \
+         -t testonly/integration \
+         -t util/election2/etcd
 %endif
 
 %files

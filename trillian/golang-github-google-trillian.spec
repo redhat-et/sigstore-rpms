@@ -10,6 +10,7 @@ Version:                1.4.0
 %global common_description %{expand:
 A transparent, highly scalable and cryptographically verifiable data store.}
 
+%global gobinaries      trillian_log_server trillian_log_signer
 %global golicenses      LICENSE
 %global godocs          docs examples CONTRIBUTING.md AUTHORS README.md\\\
                         CHANGELOG.md CONTRIBUTORS PULL_REQUEST_TEMPLATE.md\\\
@@ -38,11 +39,8 @@ Source0:        %{gosource}
 %go_generate_buildrequires
 
 %build
-for cmd in cmd/* ; do
-  %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
-done
-for cmd in docs/storage/commit_log storage/tools/dump_tree quota/redis/redistb storage/tools/hasher docs/merkletree/treetex testonly/mdm/mdmtest; do
-  %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
+for f in %{gobinaries}; do
+  %gobuild -o %{gobuilddir}/bin/$f %{goipath}/cmd/$f
 done
 
 %install
@@ -58,7 +56,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %files
 %license LICENSE
 %doc docs examples CONTRIBUTING.md AUTHORS README.md CHANGELOG.md CONTRIBUTORS
-%doc PULL_REQUEST_TEMPLATE.md extension/README.md integration/README.md
+%doc extension/README.md integration/README.md
 %doc experimental/batchmap/README.md quota/etcd/README.md deployment/README.md
 %doc storage/README.md
 %{_bindir}/*
@@ -66,5 +64,5 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
-* Mon Apr 18 2022 Ivan Font <ifont@redhat.com> - 1.4.0-1
+* Thu Apr 14 2022 Ivan Font <ifont@redhat.com> - 1.4.0-1
 - Initial package

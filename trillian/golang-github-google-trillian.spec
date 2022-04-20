@@ -26,6 +26,7 @@ Summary:        A transparent, highly scalable and cryptographically verifiable 
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+Requires:       mariadb-server
 
 %description
 %{common_description}

@@ -28,6 +28,10 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Requires:       mariadb-server
 
+%if %{with check}
+BuildRequires: golang(go.etcd.io/etcd/server/etcdserver/api/v3rpc)
+%endif
+
 %description
 %{common_description}
 
@@ -51,15 +55,10 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-# Disabling tests that rely on database server and ones with package import
-# errors.
+# Disabling tests that rely on a database server and a type mismatch error.
 %gocheck -d client/rpcflags \
          -d experimental/batchmap \
-         -d integration/quota \
-         -t quota/etcd \
-         -d storage/testdb \
-         -t testonly/integration \
-         -t util/election2/etcd
+         -d storage/testdb
 %endif
 
 %files

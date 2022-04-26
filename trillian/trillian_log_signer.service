@@ -1,0 +1,14 @@
+[Unit]
+Description=Trillian Log Signer
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+ExecStart=/usr/bin/trillian_log_signer --config /etc/trillian/trillian_log_signer.conf
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

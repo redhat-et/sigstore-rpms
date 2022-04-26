@@ -26,11 +26,17 @@ Summary:        A transparent, highly scalable and cryptographically verifiable 
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+Source1:        %{name}_log_server.service
+Source2:        %{name}_log_server.conf
+Source3:        %{name}_log_signer.service
+Source4:        %{name}_log_signer.conf
 Requires:       mariadb-server
 
 %if %{with check}
 BuildRequires: golang(go.etcd.io/etcd/server/etcdserver/api/v3rpc)
 %endif
+
+BuildRequires:  systemd-rpm-macros
 
 %description
 %{common_description}
@@ -53,6 +59,12 @@ done
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
+install -Dpm 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}_log_server.service
+install -dm 0755 %{buildroot}%{_sysconfdir}/%{name}
+install -pm 644 -t %{buildroot}%{_sysconfdir}/%{name} %{SOURCE2}
+install -Dpm 0644 %{SOURCE3} %{buildroot}%{_unitdir}/%{name}_log_signer.service
+install -pm 644 -t %{buildroot}%{_sysconfdir}/%{name} %{SOURCE4}
+
 %if %{with check}
 %check
 # Disabling tests that rely on a database server and a type mismatch error.
@@ -61,6 +73,18 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
          -d storage/testdb
 %endif
 
+%post
+%systemd_post %{name}_log_server.service
+%systemd_post %{name}_log_signer.service
+
+%preun
+%systemd_preun %{name}_log_server.service
+%systemd_preun %{name}_log_signer.service
+
+%postun
+%systemd_postun %{name}_log_server.service
+%systemd_postun %{name}_log_signer.service
+
 %files
 %license LICENSE
 %doc docs examples CONTRIBUTING.md AUTHORS README.md CHANGELOG.md CONTRIBUTORS
@@ -68,7 +92,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %doc experimental/batchmap/README.md quota/etcd/README.md deployment/README.md
 %doc storage/README.md
 %{_bindir}/*
-
+%config(noreplace) %{_sysconfdir}/%{name}
+%{_unitdir}/%{name}_log_server.service
+%{_unitdir}/%{name}_log_signer.service
 %gopkgfiles
 
 %changelog

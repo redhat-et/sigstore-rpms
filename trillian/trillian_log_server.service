@@ -1,0 +1,14 @@
+[Unit]
+Description=Trillian Log Server
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+ExecStart=/usr/bin/trillian_log_server --config /etc/trillian/trillian_log_server.conf
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

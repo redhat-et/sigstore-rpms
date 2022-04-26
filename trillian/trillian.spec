@@ -2,7 +2,7 @@
 %bcond_without check
 
 # https://github.com/google/trillian
-%global goipath         github.com/google/trillian
+%global goipath         github.com/google/%{name}
 Version:                1.4.0
 
 %gometa
@@ -10,7 +10,7 @@ Version:                1.4.0
 %global common_description %{expand:
 A transparent, highly scalable and cryptographically verifiable data store.}
 
-%global gobinaries      trillian_log_server trillian_log_signer
+%global gobinaries      %{name}_log_server %{name}_log_signer
 %global golicenses      LICENSE
 %global godocs          docs examples CONTRIBUTING.md AUTHORS README.md\\\
                         CHANGELOG.md CONTRIBUTORS PULL_REQUEST_TEMPLATE.md\\\

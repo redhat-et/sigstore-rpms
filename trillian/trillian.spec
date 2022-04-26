@@ -18,7 +18,7 @@ A transparent, highly scalable and cryptographically verifiable data store.}
                         experimental/batchmap/README.md quota/etcd/README.md\\\
                         deployment/README.md storage/README.md
 
-Name:           %{goname}
+Name:           trillian
 Release:        1%{?dist}
 Summary:        A transparent, highly scalable and cryptographically verifiable data store
 

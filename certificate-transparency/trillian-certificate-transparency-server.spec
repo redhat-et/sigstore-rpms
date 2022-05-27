@@ -16,7 +16,7 @@ Auditing for TLS certificates (Go code).}
                         trillian/README.md trillian/migrillian/README.md\\\
                         gossip/README.md asn1/README.md x509/README.md
 
-Name:           certificate-transparency
+Name:           trillian-certificate-transparency-server
 Release:        1%{?dist}
 Summary:        Auditing for TLS certificates (Go code)
 
@@ -37,7 +37,7 @@ Source0:        %{gosource}
 %go_generate_buildrequires
 
 %build
-for cmd in preload/preloader ctutil/sctcheck x509util/crlcheck loglist/findlog submission/hammer x509 trillian/migrillian preload/dumpscts submission/server trillian/integration/ct_hammer scanner/scanlog ctutil/sctscan x509util/certcheck trillian/ctfe/ct_server fixchain/chainfix client/ctclient; do
+for cmd in trillian/ctfe/ct_server; do
   %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
 done
 

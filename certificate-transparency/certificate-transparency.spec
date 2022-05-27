@@ -12,7 +12,7 @@ Auditing for TLS certificates (Go code).}
 
 %global golicenses      LICENSE third_party/prometheus/LICENSE
 %global godocs          CONTRIBUTING.md AUTHORS README.md CHANGELOG.md\\\
-                        CONTRIBUTORS PULL_REQUEST_TEMPLATE.md docs examples\\\
+                        CONTRIBUTORS PULL_REQUEST_TEMPLATE.md\\\
                         trillian/README.md trillian/migrillian/README.md\\\
                         gossip/README.md asn1/README.md x509/README.md
 
@@ -54,7 +54,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %files
 %license LICENSE third_party/prometheus/LICENSE
 %doc CONTRIBUTING.md AUTHORS README.md CHANGELOG.md CONTRIBUTORS
-%doc PULL_REQUEST_TEMPLATE.md docs examples trillian/README.md
+%doc PULL_REQUEST_TEMPLATE.md trillian/README.md
 %doc trillian/migrillian/README.md gossip/README.md asn1/README.md
 %doc x509/README.md
 %{_bindir}/*

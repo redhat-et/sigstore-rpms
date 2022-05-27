@@ -22,6 +22,9 @@ Summary:        Auditing for TLS certificates (Go code)
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+Source1:        %{name}.service
+
+BuildRequires:  systemd-rpm-macros
 
 %description
 %{common_description}
@@ -43,18 +46,29 @@ done
 %gopkginstall
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
+install -m 0755 -vd                     %{buildroot}%{_unitdir}
+install -m 0644 -vp %{SOURCE1}          %{buildroot}%{_unitdir}
 
 %if %{with check}
 %check
 %gocheck
 %endif
 
+%post
+%systemd_post %{name}.service
+
+%preun
+%systemd_preun %{name}.service
+
+%postun
+%systemd_postun %{name}.service
+
 %files
 %license LICENSE
 %doc CONTRIBUTING.md AUTHORS README.md CHANGELOG.md CONTRIBUTORS
 %doc trillian/README.md
 %{_bindir}/*
-
+%{_unitdir}/%{name}.service
 %gopkgfiles
 
 %changelog

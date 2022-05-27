@@ -1,0 +1,14 @@
+[Unit]
+Description=Trillian Certificate Transparency Log Server
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+ExecStart=/usr/bin/ct_server -logtostderr
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

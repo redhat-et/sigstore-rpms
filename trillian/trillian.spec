@@ -58,12 +58,12 @@ done
 %gopkginstall
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
-
-install -Dpm 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}_log_server.service
-install -dm 0755 %{buildroot}%{_sysconfdir}/%{name}
-install -pm 644 -t %{buildroot}%{_sysconfdir}/%{name} %{SOURCE2}
-install -Dpm 0644 %{SOURCE3} %{buildroot}%{_unitdir}/%{name}_log_signer.service
-install -pm 644 -t %{buildroot}%{_sysconfdir}/%{name} %{SOURCE4}
+install -m 0755 -vd                     %{buildroot}/%{_unitdir}
+install -m 0644 -vp %{SOURCE1}          %{buildroot}%{_unitdir}
+install -m 0755 -vd                     %{buildroot}%{_sysconfdir}/%{name}
+install -m 0644 -vp %{SOURCE2}          %{buildroot}%{_sysconfdir}/%{name}
+install -m 0644 -vp %{SOURCE3}          %{buildroot}%{_unitdir}
+install -m 0644 -vp %{SOURCE4}          %{buildroot}%{_sysconfdir}/%{name}
 
 %if %{with check}
 %check
